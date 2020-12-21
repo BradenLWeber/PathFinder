@@ -173,13 +173,13 @@ def findmouselocation(position):
         for row in range(0, size[1], box_size):
             if position[0] > column and position[0] < column + box_size and position[1] > row and position[1] < row + box_size:
                 if (column, row) in [(size[0]-box_size*3-2, 0), (size[0]-box_size*2-2, 0), (size[0]-box_size-2, 0)]:
-                    return (2, 2)
+                    return (2, 2)  # Mouse in on top button
                 elif (column, row) in [(size[0]-box_size*3-2, box_size), (size[0]-box_size*2-2, box_size), (size[0]-box_size-2, box_size)]:
-                    return (3, 3)
+                    return (3, 3)   # Mouse is on second to top button
                 elif (column, row) in [(size[0]-box_size*3-2, box_size*2), (size[0]-box_size*2-2, box_size*2), (size[0]-box_size-2, box_size*2)]:
-                    return (4, 4)
+                    return (4, 4)  # Mouse in on second to bottom button
                 elif (column, row) in [(size[0]-box_size*3-2, box_size*3), (size[0]-box_size*2-2, box_size*3), (size[0]-box_size-2, box_size*3)]:
-                    return (5, 5)
+                    return (5, 5)  # Mouse is on bottom button
                 else:
                     return (column, row)
     # If mouse is on line between boxes (1, 1) is returned
