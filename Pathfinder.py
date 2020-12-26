@@ -285,6 +285,7 @@ def addedges(reverse = False):
 def explore(spot, dist):
     '''Starts at a spot and works outward one layer
     Dist is total accumulated distance up to that point'''
+    offset = 0 # This will be the return value at the end. Reference searching() for explanation
     if illustrate_process[0]:
         drawscreen(illustrate = True)
     else:
@@ -304,6 +305,7 @@ def explore(spot, dist):
         parent.append(inheritance[checked.index(spot)])
         for group in [checked, total_dist, accum_dist, inheritance]:
             group.pop(index)
+        offset = 1  # Must change offset since something was deleted from checked
 
     if finddistance(spot, ender) in [10,14]:
         findpath(spot)
@@ -319,17 +321,17 @@ def explore(spot, dist):
                 distance = 14
 
             if box in checked:
-                if dist + distance < accum_dist[checked.index(box)]:
-                    index = checked.index(box)
+                index = checked.index(box)
+                if dist + distance < accum_dist[index]:
                     for collection in [checked, accum_dist, total_dist, inheritance]:
                         collection.pop(index)
                     checked.append(box)
                     accum_dist.append(dist + distance)
                     total_dist.append(dist + distance + finddistance(box, ender))
-                    inheritance.append(spot)
+                    inheritance.append(spot)    
             elif box in explored:
-                if dist + distance < exp_dist[explored.index(box)]:
-                    index = explored.index(box)
+                index = explored.index(box)
+                if dist + distance < exp_dist[index]:
                     for collection in [explored, exp_dist, parent]:
                         collection.pop(index)
                     explored.append(box)
@@ -340,6 +342,7 @@ def explore(spot, dist):
                 accum_dist.append(dist + distance)
                 total_dist.append(dist + distance + finddistance(box, ender))
                 inheritance.append(spot)
+    return offset
 
 
 def searching():
@@ -351,26 +354,25 @@ def searching():
         # Total dist stores all the distances of checked boxes, but checked boxes are deleted as they are explored
         # If there is no solution, every checked box will be explored until total_dist is just an empty set
         try:
-            best = min(total_dist)
+            best_total_dist = min(total_dist)
         except:
             no_solution[0] = 1
             continue
-        if total_dist.count(best) == 1:
-            index = total_dist.index(best)
+        if total_dist.count(best_total_dist) == 1:
+            index = total_dist.index(best_total_dist)
             explore(checked[index], accum_dist[index])
         else:
-            indeces = []
             indeces_red_dist = []
-            for value in total_dist:
-                if value == best:
-                    indeces.append(total_dist.index(value))
-                    indeces_red_dist.append(total_dist[total_dist.index(value)] - accum_dist[total_dist.index(value)])
-            bestest = min(indeces_red_dist)
+            for index in range(len(total_dist)):
+                if total_dist[index] == best_total_dist:
+                    indeces_red_dist.append(total_dist[index] - accum_dist[index])
+            best_red_dist = min(indeces_red_dist)
+            offset = 0  # In following for loop, items can be deleted from checked, so this makes sure every item is still checked
             for i in range(len(checked)):
                 # This is a try because when you explore, some things might get deleted from checked
                 try:
-                    if total_dist[i] == best and total_dist[i] - accum_dist[i] == bestest:
-                        explore(checked[i], accum_dist[i])
+                    if total_dist[i - offset] == best_total_dist and total_dist[i - offset] - accum_dist[i - offset] == best_red_dist:
+                        offset += explore(checked[i - offset], accum_dist[i - offset])
                 except:
                     pass
     if no_solution[0] == 1:
