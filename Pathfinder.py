@@ -10,6 +10,7 @@ screen = pygame.display.set_mode(size)
 pygame.display.set_caption('Pathfinder')
 
 font_button = pygame.font.SysFont('arial', box_size - 3)
+font_number = pygame.font.SysFont('arial', 10)
 
 shading = 1
 clicked = []
@@ -141,6 +142,16 @@ def drawshading(spot, shading, rect = False):
     else:
         pygame.draw.polygon(screen, color2, [(spot[0] + 2, spot[1] + 2), (spot[0] + 4, spot[1]  + 4), (spot[0] + box_size*3 - 2, spot[1] + 4), (spot[0] + box_size*3, spot[1] + 2)])
 
+    # Used in bug hunting
+    #if shading == 7:
+        #accum_dist = exp_dist[explored.index(spot)]
+        #dist = font_number.render(str(accum_dist), 1, (0, 0, 0))
+        #screen.blit(dist, (spot[0] + 2, spot[1] + 2))
+    #elif shading == 8:
+        #red_dist = finddistance(spot, ender)
+        #dist = font_number.render(str(red_dist), 1, (0, 0, 0))
+        #screen.blit(dist, (spot[0] + 2, spot[1] + 2))
+
 def drawclick(spot, clicked = False, start = False, end = False, solution = False, explore = False, check = False, background = False):
     '''This is to color a box that has been clicked'''
     location = (spot[0] + 2, spot[1] + 2, box_size - 2, box_size - 2)
@@ -165,7 +176,6 @@ def drawclick(spot, clicked = False, start = False, end = False, solution = Fals
     elif background:
         pygame.draw.rect(screen, (180, 180, 180), location)
         drawshading(spot, 1)
-
 
 def findmouselocation(position):
     '''Finds the coordinate of the box the mouse is in rather than the true coordinate of the mouse'''
@@ -206,7 +216,7 @@ def finddistance(box1, box2):
             distance += 14
         elif box2[0] < box1[0] and box2[1] > box1[1]:
             box1[0] -= box_size
-            box2[1] += box_size
+            box1[1] += box_size
             distance += 14
         else:
             if box2[0] > box1[0]:
@@ -258,7 +268,6 @@ def reset(walls = True):
     break_path[0] = 1
     no_solution[0] = 0
 
-
 def addedges(reverse = False):
     '''adds the edges of the screen and buttons to the list of walls (clicked)'''
     add = []
@@ -280,7 +289,6 @@ def addedges(reverse = False):
     else:
         for box in add:
             clicked.remove(box)
-
 
 def explore(spot, dist):
     '''Starts at a spot and works outward one layer
@@ -343,7 +351,6 @@ def explore(spot, dist):
                 total_dist.append(dist + distance + finddistance(box, ender))
                 inheritance.append(spot)
     return offset
-
 
 def searching():
     '''starts sequence of finding a path'''
