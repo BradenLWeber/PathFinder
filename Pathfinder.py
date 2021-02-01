@@ -512,6 +512,8 @@ while True:
     drawscreen()
 
 
-# Optimize options: drawing walls behind buttons is unnecessary
-# Add more comments
-# unneccessary to put edges of screen in clicked because then it draws that out when it clearly doesn't need to be drawn
+# Optimize options: 
+# drawing walls behind buttons is unnecessary
+# unneccessary to put edges of screen in "clicked" because then it draws that out when it clearly doesn't need to be drawn
+# Could organize clicked into a binary tree and just pop the largest element
+# To do this, would need to organize related information into one structure
