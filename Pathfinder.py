@@ -107,7 +107,7 @@ def drawshading(spot, shading, rect = False):
     if shading == 1:
         color1 = 140, 140, 140
         color2 = 195, 195, 195
-    # Uncliked box
+    # Unclicked box
     elif shading == 2:
         color1 = 20, 20, 20
         color2 = 50, 50, 50
@@ -132,7 +132,7 @@ def drawshading(spot, shading, rect = False):
         color1 = 90, 181, 83
         color2 = 127, 229, 120
     # spots that have been checked
-    elif shading == 8:
+    else:  # shading == 8
         color1 = 252, 103, 103
         color2 = 243, 153, 153
     
@@ -369,11 +369,11 @@ def searching():
             index = total_dist.index(best_total_dist)
             explore(checked[index], accum_dist[index])
         else:
-            indeces_red_dist = []
+            indexes_red_dist = []
             for index in range(len(total_dist)):
                 if total_dist[index] == best_total_dist:
-                    indeces_red_dist.append(total_dist[index] - accum_dist[index])
-            best_red_dist = min(indeces_red_dist)
+                    indexes_red_dist.append(total_dist[index] - accum_dist[index])
+            best_red_dist = min(indexes_red_dist)
             offset = 0  # In following for loop, items can be deleted from checked, so this makes sure every item is still checked
             for i in range(len(checked)):
                 # This is a try because when you explore, some things might get deleted from checked
@@ -448,7 +448,7 @@ while True:
                     elif event.key == K_4:
                         box_size = 72
                         clock_speed[0] = 20
-                    
+
                     draw = []
                     for i in range(0, box_size*6 + 1, box_size):
                         for j in range(size[1] - box_size*6 - 2, size[1], box_size):
@@ -512,8 +512,6 @@ while True:
     drawscreen()
 
 
-# Optimize options: 
-# drawing walls behind buttons is unnecessary
-# unneccessary to put edges of screen in "clicked" because then it draws that out when it clearly doesn't need to be drawn
-# Could organize clicked into a binary tree and just pop the largest element
-# To do this, would need to organize related information into one structure
+# Optimize options: drawing walls behind buttons is unnecessary
+# Add more comments
+# unnecessary to put edges of screen in clicked because then it draws that out when it clearly doesn't need to be drawn
