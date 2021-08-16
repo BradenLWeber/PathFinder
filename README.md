@@ -1,5 +1,5 @@
 # PathFinder
-Path Finder code using Python
+Path Finder UI using Python
 
 This program allows a user to pick a start position (green), end position (red), and place walls (black).
 
