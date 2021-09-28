@@ -4,7 +4,8 @@ from pygame.locals import *
 
 pygame.init()
 
-size = width, height = 1010, 794
+# For the code to work, width and height need to be a multiple of 24 with 2 added
+size = width, height = 1010, 650
 box_size = 24
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption('Pathfinder')
